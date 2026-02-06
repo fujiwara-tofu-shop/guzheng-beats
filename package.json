@@ -1,17 +1,16 @@
 {
   "name": "guzheng-beats",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite --port 3457",
     "build": "vite build",
-    "dev": "vite"
+    "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
+    "@strudel/web": "^1.3.0"
+  },
+  "devDependencies": {
     "vite": "^7.3.1"
   }
 }

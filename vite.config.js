@@ -1,6 +1,9 @@
 export default {
   base: '/guzheng-beats/',
-  build: {
-    outDir: 'dist',
+  server: {
+    port: 3457
   },
+  build: {
+    outDir: 'dist'
+  }
 };
