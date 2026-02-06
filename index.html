@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>古筝 Beats - Chinese Lo-Fi Hip Hop</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Space+Mono&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Space Mono', monospace;
+      background: linear-gradient(135deg, #1a0a0a 0%, #2d1f1f 50%, #1a0808 100%);
+      min-height: 100vh;
+      color: #e8d5c4;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 4rem;
+      color: #c9a66b;
+      text-shadow: 0 0 30px rgba(201, 166, 107, 0.3);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      color: #8b7355;
+      letter-spacing: 4px;
+    }
+    
+    .description {
+      margin-top: 20px;
+      color: #a08060;
+      font-size: 0.9rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .track-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .track {
+      background: rgba(40, 25, 20, 0.8);
+      border: 1px solid #4a3020;
+      border-radius: 12px;
+      padding: 25px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .track:hover {
+      border-color: #c9a66b;
+      box-shadow: 0 0 20px rgba(201, 166, 107, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .track.playing {
+      border-color: #e8b86d;
+      box-shadow: 0 0 30px rgba(232, 184, 109, 0.3);
+    }
+    
+    .track-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .track-number {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 2rem;
+      color: #c9a66b;
+      opacity: 0.5;
+    }
+    
+    .track-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.5rem;
+      color: #e8d5c4;
+    }
+    
+    .track-title-cn {
+      font-size: 1.2rem;
+      color: #c9a66b;
+      margin-left: 10px;
+    }
+    
+    .track-meta {
+      display: flex;
+      gap: 20px;
+      color: #8b7355;
+      font-size: 0.85rem;
+    }
+    
+    .play-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #c9a66b, #8b6914);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .play-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(201, 166, 107, 0.5);
+    }
+    
+    .play-btn svg {
+      fill: #1a0a0a;
+      width: 20px;
+      height: 20px;
+    }
+    
+    .track.playing .play-btn {
+      background: linear-gradient(135deg, #e8b86d, #c9a66b);
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      color: #5a4030;
+      font-size: 0.8rem;
+    }
+    
+    footer a {
+      color: #c9a66b;
+      text-decoration: none;
+    }
+    
+    .strudel-frame {
+      display: none;
+    }
+    
+    /* Decorative elements */
+    .seal {
+      width: 80px;
+      height: 80px;
+      margin: 20px auto;
+      border: 3px solid #c9a66b;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 2rem;
+      color: #c9a66b;
+      transform: rotate(-5deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>古筝 Beats</h1>
+      <div class="subtitle">CHINESE LO-FI HIP HOP</div>
+      <div class="seal">福</div>
+      <p class="description">
+        Pentatonic patterns meet boom bap. Live coded with Strudel.
+        Click a track to vibe. 茶道 ☯️
+      </p>
+    </header>
+    
+    <div class="track-list" id="tracks"></div>
+    
+    <footer>
+      <p>Made by <a href="https://github.com/fujiwara-tofu-shop">Fujiwara</a> · Powered by <a href="https://strudel.cc" target="_blank">Strudel</a></p>
+    </footer>
+  </div>
+  
+  <script type="module">
+    // Strudel patterns for each track
+    const tracks = [
+      {
+        title: "Jade Garden",
+        chinese: "翡翠花园",
+        bpm: 75,
+        key: "Am",
+        code: `setcps(75/60/4)
+stack(
+  // Dusty drums
+  s("bd*2, ~ sd, hh*8")
+    .bank("RolandTR808")
+    .gain(.8)
+    .lpf(2000),
+  // Pentatonic bass
+  note("<a1 c2 d2 e2>*2")
+    .s("sawtooth")
+    .lpf(400)
+    .decay(.2)
+    .sustain(0)
+    .gain(.6),
+  // Guzheng-style melody (pentatonic)
+  note("a4 c5 d5 e5 g5 e5 d5 c5".slow(2))
+    .s("sine")
+    .delay(.3)
+    .delaytime(.375)
+    .lpf(1500)
+    .gain(.3)
+)`
+      },
+      {
+        title: "Temple Fog",
+        chinese: "寺院晨雾",
+        bpm: 68,
+        key: "Dm",
+        code: `setcps(68/60/4)
+stack(
+  // Lo-fi drums with swing
+  s("bd [~ bd] sd ~, [hh hh:1]*4")
+    .bank("RolandTR808")
+    .gain(.7)
+    .lpf(1800)
+    .room(.3),
+  // Deep sub bass
+  note("<d1 [d1 f1] g1 a1>")
+    .s("square")
+    .lpf(200)
+    .decay(.3)
+    .sustain(.1)
+    .gain(.5),
+  // Ethereal pad
+  note("<d3,f3,a3> <a3,c4,e4>".slow(4))
+    .s("sine")
+    .attack(.5)
+    .decay(2)
+    .sustain(.3)
+    .lpf(800)
+    .gain(.2)
+    .delay(.4)
+)`
+      },
+      {
+        title: "Silk Road",
+        chinese: "丝绸之路",
+        bpm: 82,
+        key: "Em",
+        code: `setcps(82/60/4)
+stack(
+  // Boom bap drums
+  s("[bd ~] [~ bd] sd ~, hh*8")
+    .bank("RolandTR909")
+    .gain(.8)
+    .lpf(2500),
+  // Walking bass
+  note("e2 g2 a2 b2 d3 b2 a2 g2".slow(2))
+    .s("sawtooth")
+    .lpf(500)
+    .decay(.15)
+    .sustain(0)
+    .gain(.5),
+  // Plucky pentatonic lead
+  note("[e4 g4] [a4 ~] [b4 d5] [~ e5]")
+    .s("triangle")
+    .decay(.1)
+    .sustain(0)
+    .delay(.25)
+    .delaytime(.25)
+    .lpf(2000)
+    .gain(.35)
+)`
+      },
+      {
+        title: "Bamboo Rain",
+        chinese: "竹林听雨",
+        bpm: 70,
+        key: "Gm",
+        code: `setcps(70/60/4)
+stack(
+  // Minimal drums
+  s("bd ~ ~ bd, ~ sd ~ sd:1, hh*16")
+    .bank("RolandTR808")
+    .gain(".8 .6 .7 .6")
+    .lpf(1600),
+  // Mellow bass
+  note("<g1 [~ g1] bb1 c2>")
+    .s("sine")
+    .lpf(300)
+    .decay(.4)
+    .sustain(.2)
+    .gain(.6),
+  // Rain-like arpeggios
+  note("g4 bb4 c5 d5 f5 d5 c5 bb4".fast(2))
+    .s("sine")
+    .decay(.08)
+    .sustain(0)
+    .delay(.5)
+    .delaytime(".125 .25")
+    .lpf(1200)
+    .gain(".25 .2 .3 .2")
+)`
+      },
+      {
+        title: "Dragon Tea",
+        chinese: "龙井茶",
+        bpm: 78,
+        key: "Cm",
+        code: `setcps(78/60/4)
+stack(
+  // Crispy drums
+  s("[bd bd:1] sd, oh*2, hh*8")
+    .bank("RolandTR808")
+    .gain(.75)
+    .lpf(2200)
+    .room(.2),
+  // Groovy bass
+  note("c2 c2 eb2 ~ g2 ~ eb2 c2".slow(2))
+    .s("square")
+    .lpf(350)
+    .decay(.2)
+    .sustain(0)
+    .gain(.5),
+  // Oriental melody
+  note("<c4 eb4 f4 g4 bb4>*2")
+    .s("triangle")
+    .lpf(1800)
+    .decay(.15)
+    .sustain(.1)
+    .delay(.3)
+    .gain(.3),
+  // Background pad
+  note("<c3,eb3,g3>".slow(4))
+    .s("sine")
+    .attack(1)
+    .decay(3)
+    .sustain(.2)
+    .gain(.15)
+)`
+      },
+      {
+        title: "Moon Gate",
+        chinese: "月亮门",
+        bpm: 65,
+        key: "Fm",
+        code: `setcps(65/60/4)
+stack(
+  // Slow, heavy drums
+  s("bd ~ [~ bd] ~, ~ [sd ~] ~ sd, hh*4")
+    .bank("RolandTR808")
+    .gain(.7)
+    .lpf(1400)
+    .room(.4),
+  // Deep bass
+  note("<f1 ab1 c2 eb2>".slow(2))
+    .s("sawtooth")
+    .lpf(250)
+    .decay(.5)
+    .sustain(.1)
+    .gain(.55),
+  // Dreamy lead
+  note("f4 ~ ab4 ~ c5 ~ ab4 f4".slow(2))
+    .s("sine")
+    .attack(.1)
+    .decay(.3)
+    .sustain(.2)
+    .delay(.4)
+    .delaytime(.5)
+    .lpf(900)
+    .gain(.25)
+)`
+      }
+    ];
+    
+    // Import Strudel
+    const { repl } = await import('https://unpkg.com/@strudel/repl@latest');
+    
+    let currentRepl = null;
+    let currentTrack = null;
+    
+    // Render tracks
+    const container = document.getElementById('tracks');
+    tracks.forEach((track, i) => {
+      const el = document.createElement('div');
+      el.className = 'track';
+      el.innerHTML = `
+        <div class="track-header">
+          <div>
+            <span class="track-number">0${i + 1}</span>
+            <span class="track-title">${track.title}</span>
+            <span class="track-title-cn">${track.chinese}</span>
+          </div>
+          <button class="play-btn">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+        <div class="track-meta">
+          <span>${track.bpm} BPM</span>
+          <span>${track.key}</span>
+          <span>Pentatonic</span>
+        </div>
+      `;
+      
+      el.addEventListener('click', async () => {
+        // Stop current
+        if (currentRepl) {
+          await currentRepl.stop();
+          document.querySelectorAll('.track').forEach(t => t.classList.remove('playing'));
+        }
+        
+        // If clicking same track, just stop
+        if (currentTrack === i) {
+          currentTrack = null;
+          currentRepl = null;
+          return;
+        }
+        
+        // Start new track
+        el.classList.add('playing');
+        currentTrack = i;
+        
+        const { scheduler } = await repl({
+          defaultOutput: 'speaker',
+          prebake: true,
+          getTime: () => performance.now() / 1000
+        });
+        
+        currentRepl = scheduler;
+        await scheduler.setCode(track.code);
+        await scheduler.start();
+      });
+      
+      container.appendChild(el);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>古筝 Beats - Chinese Lo-Fi Hip Hop</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Space+Mono&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Space Mono', monospace;
+      background: linear-gradient(135deg, #1a0a0a 0%, #2d1f1f 50%, #1a0808 100%);
+      min-height: 100vh;
+      color: #e8d5c4;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 4rem;
+      color: #c9a66b;
+      text-shadow: 0 0 30px rgba(201, 166, 107, 0.3);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      color: #8b7355;
+      letter-spacing: 4px;
+    }
+    
+    .description {
+      margin-top: 20px;
+      color: #a08060;
+      font-size: 0.9rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .track-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .track {
+      background: rgba(40, 25, 20, 0.8);
+      border: 1px solid #4a3020;
+      border-radius: 12px;
+      padding: 25px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .track:hover {
+      border-color: #c9a66b;
+      box-shadow: 0 0 20px rgba(201, 166, 107, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .track.playing {
+      border-color: #e8b86d;
+      box-shadow: 0 0 30px rgba(232, 184, 109, 0.3);
+    }
+    
+    .track-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .track-number {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 2rem;
+      color: #c9a66b;
+      opacity: 0.5;
+    }
+    
+    .track-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.5rem;
+      color: #e8d5c4;
+    }
+    
+    .track-title-cn {
+      font-size: 1.2rem;
+      color: #c9a66b;
+      margin-left: 10px;
+    }
+    
+    .track-meta {
+      display: flex;
+      gap: 20px;
+      color: #8b7355;
+      font-size: 0.85rem;
+    }
+    
+    .play-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #c9a66b, #8b6914);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .play-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(201, 166, 107, 0.5);
+    }
+    
+    .play-btn svg {
+      fill: #1a0a0a;
+      width: 20px;
+      height: 20px;
+    }
+    
+    .track.playing .play-btn {
+      background: linear-gradient(135deg, #e8b86d, #c9a66b);
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      color: #5a4030;
+      font-size: 0.8rem;
+    }
+    
+    footer a {
+      color: #c9a66b;
+      text-decoration: none;
+    }
+    
+    .strudel-frame {
+      display: none;
+    }
+    
+    /* Decorative elements */
+    
+    .seal {
+      width: 80px;
+      height: 80px;
+      margin: 20px auto;
+      border: 3px solid #c9a66b;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 2rem;
+      color: #c9a66b;
+      transform: rotate(-5deg);
+    }
+  </style>
+  <script type="module" crossorigin src="/guzheng-beats/assets/index-_2WcsBxR.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>古筝 Beats</h1>
+      <div class="subtitle">CHINESE LO-FI HIP HOP</div>
+      <div class="seal">福</div>
+      <p class="description">
+        Pentatonic patterns meet boom bap. Live coded with Strudel.
+        Click a track to vibe. 茶道 ☯️
+      </p>
+    </header>
+    
+    <div class="track-list" id="tracks"></div>
+    
+    <footer>
+      <p>Made by <a href="https://github.com/fujiwara-tofu-shop">Fujiwara</a> · Powered by <a href="https://strudel.cc" target="_blank">Strudel</a></p>
+    </footer>
+  </div>
+  
+</body>
+</html>
